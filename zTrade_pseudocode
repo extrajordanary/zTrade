@@ -1,0 +1,60 @@
+//	PSEUDO CODE for Z-TRADE  
+//
+//	Created by Jordan Arnesen on 07/02/14.
+//  Copyright (c) 2014 Benjamin Reynolds. All rights reserved.
+//
+
+/** Creature  **/
+@?alive  // need this?
+@health
+@speed
+@position
+@line of site (LOS)
+
+/**  Human : Creature  **/
+@?alive = true
+@defense // ?
+@?bit
+@meat
+
+if lower health, speed --
+
+
+/**  Runner : Human  **/
+@speed ++
+@carry capacity = can carry  1-n cargo// possible upgrade
+	for each cargo*:
+		LOS --
+		speed --
+	
+
+/**  Guard : Human  **/
+@defense ++
+@weapon*
+
+
+/**  Zombie : Creature  **/
+@?alive = false
+@hearing distance
+@armReach
+@changeDirectionCountdown
+
+if human in armReach, grab
+if contact human, bite
+if contact dead human, eat #? human.meat
+if human in LOS, move toward human.position 
+				 changeDirectionCountdown = 0
+if hear sound, move towards sound
+				changeDirectionCountdown = 0
+if hit obstacle 
+	if changeDirectionCountdown = #?, change direction
+	else, changeDirectionCountdown ++
+
+else, move forward
+
+
+/**  Weapon  **/
+@damage
+@range
+@precision
+
