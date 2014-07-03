@@ -4,11 +4,13 @@
 //  Copyright (c) 2014 Jordan Arnesen. All rights reserved.
 //
 
-/** Creature  **/
+/** Creature  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * /
+
 @?alive  // need this?
 @health
 @speed
 @position
+@heading
 @line of site (LOS)
 
 /**  Human : Creature  **/
@@ -20,7 +22,8 @@
 if lower health, speed --
 
 
-/**  Runner : Human  **/
+/**  Runner : Human  * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 @speed ++
 @carry capacity = can carry  1-n cargo// possible upgrade
 	for each cargo*:
@@ -28,16 +31,28 @@ if lower health, speed --
 		speed --
 	
 
-/**  Guard : Human  **/
+/**  Guard : Human  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * /
+
 @defense ++
-@weapon*
+@equippedWeapon
+@attackRange 
+@weaponSkill
 
 
-/**  Zombie : Creature  **/
-@?alive = false
+
+
+/**  Zombie : Creature  * * * * * * * * * * * * * * * * * * * * * * * * * * * /
+
 @hearing distance
 @armReach
 @changeDirectionCountdown
+
+if hitByWeapon
+	if ?headShot, 
+		?alive = false // gets deader!
+		play weapon.killAnimation
+	else 
+		play weapon.hitAnimation
 
 if human in armReach, grab
 if contact human, bite
@@ -46,15 +61,35 @@ if human in LOS, move toward human.position
 				 changeDirectionCountdown = 0
 if hear sound, move towards sound
 				changeDirectionCountdown = 0
-if hit obstacle 
-	if changeDirectionCountdown = #?, change direction
+if contact obstacle 
+	// TODO - 	zombie should not slide along obstacles at an angle
+	// 			should rock back and forth slightly as they try to keep 
+	//			walking forward for some time before finally "boucing off"
+	//			if the angle of collision is shallow enough they can be
+	//			redirected slightly 
+	if changeDirectionCountdown = #?, change heading
 	else, changeDirectionCountdown ++
+
+if contact zombie...
+	// TODO - 	choose type of reaction
+	//			do they stumble/trip and keep going on original path?
+	//			stumble and then form a mob that moves together
+	//			** ideally mob behavior will be emergent so that 
+	//			it just happens and so individuals can still split off later
+if contact cargo, damage cargo by #?
 
 else, move forward
 
 
-/**  Weapon  **/
+/**  Weapon  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 @damage
 @range
 @precision
+@hitAnimation  // maybe some weapons have more knockback?
+@killAnimation // what awesome way does the zombie die this time?
 
+
+/** Obstacle  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * /
+
+// if it's not a creature or a weapon it's an obstacle
