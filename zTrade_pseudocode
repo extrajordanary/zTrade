@@ -11,9 +11,29 @@
 @speed
 @position
 @heading
-@line of site (LOS)
+@sightRadius
+@creaturesInView
+@armReach
 
-/**  Human : Creature  **/
+[updateCreaturesInView]
+for each creature on screen
+	if creature within sightRadius
+		if the straight line between self and creature intersects any obstacles
+			for each obstacle
+				if !obstacle.?seeThrough
+					can't see creature
+		else add creature to creatuesInView
+
+[objectsInArmReach:ObjectType -> return array @objectsInArmReach]
+for each objectType on screen
+	if objectType within armReach
+		if the straight line between self and objectType intersects any obstacles
+			for each obstacle
+				if !obstacle.?reachThrough
+					can't reach objectType
+		else add objectType to objectsInArmReach
+
+/**  Human : Creature  * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 @?alive = true
 @defense // ?
 @?bit
@@ -21,13 +41,23 @@
 
 if lower health, speed --
 
+when entering from off screen, walk in constant heading until directed otherwise
+
+on touch -> get input for new path
+
+when reaching the end of the path, stop
+
+when grabbed by zombie, speed --
+when attacked by zombie, health --
+
+
 
 /**  Runner : Human  * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 @speed ++
 @carry capacity = can carry  1-n cargo// possible upgrade
 	for each cargo*:
-		LOS --
+	 sightRadius --
 		speed --
 	
 
@@ -37,6 +67,8 @@ if lower health, speed --
 @equippedWeapon
 @attackRange 
 @weaponSkill
+@allowableRange // some guards can only walk around inside the fence line
+				// so need to treat area outside as impassable
 
 
 
@@ -47,17 +79,18 @@ if lower health, speed --
 @armReach
 @changeDirectionCountdown
 
-if hitByWeapon
+[hitByWeapon] // called by collision type 
 	if ?headShot, 
 		?alive = false // gets deader!
 		play weapon.killAnimation
 	else 
 		play weapon.hitAnimation
 
+[updateObjectsInArmReach]
 if human in armReach, grab
 if contact human, bite
 if contact dead human, eat #? human.meat
-if human in LOS, move toward human.position 
+if human in sightRadius, move toward human.position 
 				 changeDirectionCountdown = 0
 if hear sound, move towards sound
 				changeDirectionCountdown = 0
