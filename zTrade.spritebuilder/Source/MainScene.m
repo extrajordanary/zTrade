@@ -10,4 +10,16 @@
 
 @implementation MainScene
 
+-(void)zom1 {
+    CCLOG(@"Aaaargh!");
+}
+
+-(void)zom2 {
+    CCLOG(@"Aaaaaaargh!");
+}
+
+-(void)zom3 {
+    CCLOG(@"Aaaaaaaaaargh!");
+}
+
 @end
