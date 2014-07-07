@@ -10,16 +10,35 @@
 
 @implementation MainScene
 
--(void)zom1 {
-    CCLOG(@"Aaaargh!");
+- (id)init
+{
+    if (self = [super init])
+    {
+        // activate touches on this scene
+        self.userInteractionEnabled = TRUE;
+    }
+    return self;
 }
 
--(void)zom2 {
-    CCLOG(@"Aaaaaaargh!");
+- (void)touchBegan:(UITouch *)touch withEvent:(UIEvent *)event
+{
+    // we want to know the location of our touch in this scene
+    CGPoint touchLocation = [touch locationInNode:self];
+    // create a 'hero' sprite
+    CCSprite *zombie = [CCSprite spriteWithImageNamed:@"zombieHead.png"];
+    [self addChild:zombie];
+    // place the sprite at the touch location
+    zombie.position = touchLocation;
 }
 
--(void)zom3 {
-    CCLOG(@"Aaaaaaaaaargh!");
-}
+
+// instantiate a ZOMBIE in the middle of the screen
+// SPRITEBUILDER
+
+// when ZOMBIE is touched,
+//draw a PATH with a ZOMBIE.position as the first point
+
+
+// animate the ZOMBIE to follow the PATH
 
 @end
