@@ -8,6 +8,7 @@
 
 #import "CCSprite.h"
 #import "cocos2d.h"
+#include <CCActionInterval.h>
 
 @interface Zombie : CCSprite
 

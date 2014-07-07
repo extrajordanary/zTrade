@@ -8,9 +8,13 @@
 
 #import "Zombie.h"
 
-@implementation Zombie
+@implementation Zombie {
+    CCActionSequence *currentPath;
+    CGPoint targetPoint;
+}
 
 - (void)onEnter {
+    [super onEnter];
     self.userInteractionEnabled = TRUE;
 }
 
@@ -22,7 +26,13 @@
 {
     // we want to know the location of our touch in this scene
     CGPoint touchLocation = [touch locationInNode:self.parent];
-    self.position = touchLocation;
+    targetPoint = touchLocation;
+}
+
+- (void)touchEnded:(UITouch *)touch withEvent:(UIEvent *)event
+{
+    id moveAction = [CCActionMoveTo actionWithDuration:2 position:targetPoint];
+    [self runAction:moveAction];
 }
 
 @end
