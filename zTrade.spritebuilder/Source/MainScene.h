@@ -7,6 +7,7 @@
 //
 
 #import "CCNode.h"
+#import "Zombie.h"
 
 @interface MainScene : CCNode
 

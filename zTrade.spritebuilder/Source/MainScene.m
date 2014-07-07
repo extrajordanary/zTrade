@@ -8,7 +8,11 @@
 
 #import "MainScene.h"
 
-@implementation MainScene
+@implementation MainScene {
+    CCPhysicsNode *_physicsNode;
+}
+
+
 
 - (id)init
 {
@@ -24,9 +28,9 @@
 {
     // we want to know the location of our touch in this scene
     CGPoint touchLocation = [touch locationInNode:self];
-    // create a 'hero' sprite
-    CCSprite *zombie = [CCSprite spriteWithImageNamed:@"zombieHead.png"];
-    [self addChild:zombie];
+    // create a sprite
+    CCNode *zombie = [CCBReader load:@"Zombie"];
+    [_physicsNode addChild:zombie];
     // place the sprite at the touch location
     zombie.position = touchLocation;
 }
