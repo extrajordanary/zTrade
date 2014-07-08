@@ -11,8 +11,13 @@
 @implementation Zombie
 {
     CCActionSequence *currentPath;
+    
+    
     NSMutableArray *pathPoints;
+    NSMutableArray *pathArray; //array of action objects
+
     NSMutableArray *testPath;
+    
     CGPoint touchLocation;
     CGPoint targetPoint;
     
@@ -29,6 +34,8 @@
     [super onEnter];
     self.userInteractionEnabled = TRUE;
     pathPoints = [[NSMutableArray alloc] init];
+    pathArray = [[NSMutableArray alloc] init];
+    
     one = CGPointMake(50, 50);
     two = CGPointMake(100, 50);
     three = CGPointMake(100, 100);
@@ -53,6 +60,8 @@
     [self stopAllActions];
     isFollowing = false;
     [pathPoints removeAllObjects];
+    [pathArray removeAllObjects];
+    
     CCLOG(@"zombie at %f  %f",self.position.x, self.position.y);
 }
 
@@ -65,6 +74,10 @@
     NSValue *pointValue = [NSValue valueWithCGPoint:touchLocation];
     
     [pathPoints addObject:pointValue];
+    
+    
+    [pathArray addObject:[CCActionMoveTo actionWithDuration:.1 position:touchLocation]];
+    
     
 }
 
@@ -81,52 +94,15 @@
     // tell me how big the point path queue is
     CCLOG(@"drawn path %i",[pathPoints count]);
     
-    [self followPath:pathPoints];
-//    CCLOG(@"test path %i",[testPath count]);
-
-//    [self followPath:testPath];
-    
-//    [self followPath];
+    [self followPath];
     
 }
 
-- (void) followPath:(NSMutableArray *)points
-//- (void) followPath
+- (void) followPath
 {
-    // need to create a CCActionSequence from the given array
-//    CCArray *moveSequence = CCArray::create();
-    
-//    int i = 0;
-//    CCLOG(@"yes");
-//    while (i <= [points count]) {
-//        if (i % 2 == 0) {
-//            CGPoint nextPoint = [points[i] CGPointValue];
-//            id moveAction = [CCActionMoveTo actionWithDuration:.5 position:nextPoint];
-//            [self runAction:moveAction];
-//            CCLOG(@"%i",i);
-//
-//        }
-//        i ++;
-//    }
-//    while (![moveAction isDone]) {
-//        CCLOG(@"moving!");
-//    }
-    
-    id move1 = [CCActionMoveTo actionWithDuration:1 position:one];
-    id move2 = [CCActionMoveTo actionWithDuration:1 position:two];
-    id move3 = [CCActionMoveTo actionWithDuration:1 position:three];
-    id move4 = [CCActionMoveTo actionWithDuration:1 position:four];
-    id move5 = [CCActionMoveTo actionWithDuration:1 position:one];
-    
-//    [self runAction:move1];
-//    [self runAction:move2];
-//    [self runAction:move3];
-//    [self runAction:move4];
-//    [self runAction:move5];
-    
-    [self runAction:[CCActionSequence actions: move1, move2, move3, move4, move5, nil]];
 
-//    CCActionSequence *sequence = [CCActionSequence actionWithArray:@[moveTo, mergeTile, remove]];
+    currentPath = [CCActionSequence actionWithArray:pathArray];
+    [self runAction:currentPath];
 
     CCLOG(@"done");
 
