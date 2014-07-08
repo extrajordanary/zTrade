@@ -76,7 +76,7 @@
     [pathPoints addObject:pointValue];
     
     
-    [pathArray addObject:[CCActionMoveTo actionWithDuration:.1 position:touchLocation]];
+    [pathArray addObject:[CCActionMoveTo actionWithDuration:.2 position:touchLocation]];
     
     
 }

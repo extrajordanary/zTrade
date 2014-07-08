@@ -29,21 +29,13 @@
     // we want to know the location of our touch in this scene
     CGPoint touchLocation = [touch locationInNode:self];
     
-//    // create a sprite
-//    CCNode *zombie = [CCBReader load:@"Zombie"];
-//    [_physicsNode addChild:zombie];
-//    // place the sprite at the touch location
-//    zombie.position = touchLocation;
+    // create a sprite
+    CCNode *zombie = [CCBReader load:@"Zombie"];
+    [_physicsNode addChild:zombie];
+    // place the sprite at the touch location
+    zombie.position = touchLocation;
 }
 
 
-// instantiate a ZOMBIE in the middle of the screen
-// SPRITEBUILDER
-
-// when ZOMBIE is touched,
-//draw a PATH with a ZOMBIE.position as the first point
-
-
-// animate the ZOMBIE to follow the PATH
 
 @end
